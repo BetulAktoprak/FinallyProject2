@@ -1,0 +1,59 @@
+﻿@model FinallyProjectEntity.ViewModel.LoginVM
+
+<div class="text-center rounded-3 d-flex justify-content-center vh-100 align-items-center" style="background-image:url('/images/'); background-size: cover; background-repeat: no-repeat">
+    <div class="row p-4 rounded-3">
+        <div class="col-8 bg-light pt-4 rounded-3 border-success border-2" style="border:solid">
+            <hr />
+            <div>
+                <h6 class="text-center pb-2 text-uppercase text-muted">
+                    Sosyal ağları kullanarak giriş yapın
+                </h6>
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="row">
+                            <a href="#" class="col-4 text-center" style="text-decoration:none">
+                                <i class="fab fa-facebook fa-lg"></i>
+                            </a>
+                            <a href="#" class="col-4 text-center" style="text-decoration:none">
+                                <i class="fab fa-google fa-lg" style="color:brown;"></i>
+                            </a>
+                            <a href="#" class="col-4 text-center" style="text-decoration:none">
+                                <i class="fab fa-linkedin fa-lg" style="color:dodgerblue;"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <form asp-action="Login" method="post" asp-controller="Account">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="col-lg-6 col-sm-12 col-md-12">
+                        <input placeholder="Email" asp-for="Email" class="rounded form-control text-secondary border-1 border-secondary" />
+                    </div>
+                </div>
+                <br />
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="col-lg-6 col-sm-12 col-md-12 pb-3">
+                        <input placeholder="Password" asp-for="Password" class="rounded form-control text-secondary border-1 border-secondary" />
+                    </div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="pb-3">
+                        <button class="btn btn-success" type="submit">Giriş</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-4 bg-white rounded-3 pt-5 border-2 border-warning" style="border:solid">
+            <div class="pt-5">
+                <h6 class="text-info">
+                    Eğer yeni bir kullanıcıysanız, kayıt olmak için aşağıdaki linke tıklayın.
+                </h6>
+            </div>
+            <div class="d-flex justify-content-center">
+                <a asp-action="Register" class="btn btn-info"><strong>Kayıt Ol</strong></a>
+            </div>
+            <br />
+        </div>
+    </div>        
+</div>
