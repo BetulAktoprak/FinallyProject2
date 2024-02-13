@@ -10,7 +10,7 @@ namespace FinallyProjectEntity.ViewModel
     public class RegisterVM
     {
         public ApplicationUser applicationUser { get; set; }
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set;}
@@ -24,5 +24,6 @@ namespace FinallyProjectEntity.ViewModel
         [Required]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
+
     }
 }

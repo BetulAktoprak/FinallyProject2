@@ -13,6 +13,7 @@ namespace FinallyProjectDataAccess
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+            //Bağlantı kısmı appsettings.json dosyasında ekli 
         }
 
         public DbSet<Category> Categories { get; set; }

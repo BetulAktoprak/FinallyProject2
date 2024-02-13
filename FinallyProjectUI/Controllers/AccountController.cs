@@ -62,28 +62,37 @@ namespace FinallyProjectUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM register)
         {
-            var user = new ApplicationUser
+            if (ModelState.IsValid)
             {
-                FirstName = register.applicationUser.FirstName,
-                LastName = register.applicationUser.LastName,
-                Email = register.Email,
-                UserName = register.UserName,
-                Address = register.applicationUser.Address,
-                City = register.applicationUser.City
-            };
-            var Registration = await _userManager.CreateAsync(user, register.Password);
-            if (Registration.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                register.StatusMessage = "Kayıt Başarılı!";
-                return RedirectToAction("Index", "Home");
+                var user = new ApplicationUser
+                {
+                    FirstName = register.applicationUser.FirstName,
+                    LastName = register.applicationUser.LastName,
+                    Email = register.Email,
+                    UserName = register.UserName,
+                    Address = register.applicationUser.Address,
+                    City = register.applicationUser.City
+                };
+                var Registration = await _userManager.CreateAsync(user, register.Password);
+                if (Registration.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    register.StatusMessage = "Kayıt Başarılı!";
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    foreach (var error in Registration.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
             }
-            else
-            {
-                register.StatusMessage = "Kayıt Başarısız!";
-            }
+
+           
             return View(register);
         }
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
