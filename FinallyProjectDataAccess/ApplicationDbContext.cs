@@ -16,5 +16,6 @@ namespace FinallyProjectDataAccess
         }
 
         public DbSet<Category> Categories { get; set; }
+        public DbSet<ApplicationUser> applicationUser { get; set; }
     }
 }
