@@ -21,13 +21,14 @@ namespace FinallyProjectUI.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
             LoginVM vm = new LoginVM();
+            ViewData["returnUrl"] = returnUrl;
             return View(vm);
         }
         [HttpPost]
-        public async Task<IActionResult> Login(LoginVM login)
+        public async Task<IActionResult> Login(LoginVM login, string returnUrl = null)
         {
             if (ModelState.IsValid)
             {
@@ -35,7 +36,14 @@ namespace FinallyProjectUI.Controllers
                 if (result.Succeeded)
                 {
                     login.LoginStatus = "Giriş Başarılı. Teşekkür ederiz";
-                    return RedirectToAction("Index", "Home");
+                    if(returnUrl != null && Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
            
