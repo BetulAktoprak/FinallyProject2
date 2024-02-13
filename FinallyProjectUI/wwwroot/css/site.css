@@ -44,3 +44,19 @@ body {
     border-radius: 20px;
     background-color: white
 }
+
+.borderWithColorProd{
+    padding: 10px 0px 0px 0px;
+    margin: 20px 0px 0px 0px;
+    border: 1px solid white;
+    border-radius: 10px;
+    background-color: whitesmoke
+}
+
+.borderWithColor{
+    padding: 10px 0px 0px 0px;
+    margin: 20px 0px 0px 0px;
+    border:2px solid white;
+    border-radius: 20px;
+    background-color: whitesmoke
+}
