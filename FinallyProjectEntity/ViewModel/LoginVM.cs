@@ -15,6 +15,6 @@ namespace FinallyProjectEntity.ViewModel
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public string LoginStatus { get; set; }
+        public string? LoginStatus { get; set; }
     }
 }

@@ -29,15 +29,19 @@ namespace FinallyProjectUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginVM login)
         {
-            var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, isPersistent:false, lockoutOnFailure:true);
-            if (result.Succeeded)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("Index", "Home");
+                var result = await _signInManager.PasswordSignInAsync(login.Email, login.Password, isPersistent: false, lockoutOnFailure: true);
+                if (result.Succeeded)
+                {
+                    login.LoginStatus = "Giriş Başarılı. Teşekkür ederiz";
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            else
-            {
-                login.LoginStatus = "unsuccessfull";
-            }
+           
+           
+            login.LoginStatus = "Giriş Başarısız. Lütfen tekrar deneyiniz";
+           
             
             return View(login);
         }
@@ -71,6 +75,11 @@ namespace FinallyProjectUI.Controllers
                 register.StatusMessage = "Kayıt Başarısız!";
             }
             return View(register);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
