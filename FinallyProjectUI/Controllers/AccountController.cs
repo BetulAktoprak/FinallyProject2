@@ -36,7 +36,8 @@ namespace FinallyProjectUI.Controllers
                 if (result.Succeeded)
                 {
                     login.LoginStatus = "Giriş Başarılı. Teşekkür ederiz";
-                    if(returnUrl != null && Url.IsLocalUrl(returnUrl))
+                    //return RedirectToAction("Index", "Home");
+                    if (returnUrl != null && Url.IsLocalUrl(returnUrl))
                     {
                         return Redirect(returnUrl);
                     }
@@ -46,11 +47,11 @@ namespace FinallyProjectUI.Controllers
                     }
                 }
             }
-           
-           
+
+
             login.LoginStatus = "Giriş Başarısız. Lütfen tekrar deneyiniz";
-           
-            
+
+
             return View(login);
         }
 
@@ -62,34 +63,33 @@ namespace FinallyProjectUI.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterVM register)
         {
-            if (ModelState.IsValid)
+
+            var user = new ApplicationUser
             {
-                var user = new ApplicationUser
-                {
-                    FirstName = register.applicationUser.FirstName,
-                    LastName = register.applicationUser.LastName,
-                    Email = register.Email,
-                    UserName = register.UserName,
-                    Address = register.applicationUser.Address,
-                    City = register.applicationUser.City
-                };
-                var Registration = await _userManager.CreateAsync(user, register.Password);
-                if (Registration.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    register.StatusMessage = "Kayıt Başarılı!";
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach (var error in Registration.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
+                FirstName = register.applicationUser.FirstName,
+                LastName = register.applicationUser.LastName,
+                Email = register.Email,
+                UserName = register.UserName,
+                Address = register.applicationUser.Address,
+                City = register.applicationUser.City
+            };
+            var Registration = await _userManager.CreateAsync(user, register.Password);
+            if (Registration.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                register.StatusMessage = "Kayıt Başarılı!";
+                return RedirectToAction("Index", "Home");
+                
+
+
+            }
+            else
+            {
+                register.StatusMessage = "Kayıt başarısız!";
             }
 
-           
+
+            //await _userManager.AddToRoleAsync(user, "Users");
             return View(register);
         }
 

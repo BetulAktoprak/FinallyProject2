@@ -26,7 +26,7 @@ namespace FinallyProjectUI.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            ProductVM productVM = new ProductVM()
+            ProductVM productsVM = new ProductVM()
             {
                 Inventories = new Inventory(),
                 PImages = new PImages(),
@@ -36,7 +36,7 @@ namespace FinallyProjectUI.Controllers
                     Value = u.Id.ToString()
                 })
             };
-            return View(productVM);
+            return View(productsVM);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

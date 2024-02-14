@@ -29,7 +29,7 @@
                         <strong><label asp-for="UserName"></label></strong>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-12">
-                        <input asp-for="UserName" class="form-control" />
+                        <input asp-for="UserName" class="form-control" placeholder="email adresini girin" />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                 </div>
@@ -53,11 +53,11 @@
                 </div>
                 <div class="row p-2">
                     <div class="col-lg-4 col-md-4 col-sm-12">
-                        <strong><label asp-for="applicationUser.State"></label></strong>
+                        <strong><label asp-for="applicationUser.City"></label></strong>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-12">
-                        <input asp-for="applicationUser.State" class="form-control" />
-                        <span asp-validation-for="applicationUser.State" class="text-danger"></span>
+                        <input asp-for="applicationUser.City" class="form-control" />
+                        <span asp-validation-for="applicationUser.City" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row p-2">
