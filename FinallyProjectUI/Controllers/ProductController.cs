@@ -43,9 +43,9 @@ namespace FinallyProjectUI.Controllers
         public async Task<IActionResult> Create(ProductVM productVM)
         {
             string homeImageUrl = "";
-            if(productVM.Images != null)
+            if (productVM.Images != null)
             {
-                foreach(var image in productVM.Images)
+                foreach (var image in productVM.Images)
                 {
                     homeImageUrl = image.FileName;
                     if (homeImageUrl.Contains("Home"))
@@ -64,9 +64,9 @@ namespace FinallyProjectUI.Controllers
             await _context.Inventories.AddAsync(productVM.Inventories);
             await _context.SaveChangesAsync();
 
-            if(productVM.Images != null)
+            if (productVM.Images != null)
             {
-                foreach(var image in productVM.Images)
+                foreach (var image in productVM.Images)
                 {
                     string tempFileName = image.FileName;
                     if (!tempFileName.Contains("Home"))
@@ -108,15 +108,15 @@ namespace FinallyProjectUI.Controllers
         public IActionResult Edit(ProductVM productVM)
         {
             var ProductToEdit = _context.Products.FirstOrDefault(u => u.Id == productVM.Products.Id);
-            if(ProductToEdit != null)
+            if (ProductToEdit != null)
             {
                 ProductToEdit.Name = productVM.Products.Name;
                 ProductToEdit.Price = productVM.Products.Price;
                 ProductToEdit.Description = productVM.Products.Description;
                 ProductToEdit.CategoryId = productVM.Products.CategoryId;
-                if(productVM.Images != null)
+                if (productVM.Images != null)
                 {
-                    foreach(var item in productVM.Images)
+                    foreach (var item in productVM.Images)
                     {
                         string tempFileName = item.FileName;
                         if (!tempFileName.Contains("Home"))
@@ -132,7 +132,7 @@ namespace FinallyProjectUI.Controllers
                         }
                         else
                         {
-                            if(ProductToEdit.HomeImageUrl == "")
+                            if (ProductToEdit.HomeImageUrl == "")
                             {
                                 string homeImageUrl = item.FileName;
                                 if (homeImageUrl.Contains("Home"))
@@ -143,22 +143,53 @@ namespace FinallyProjectUI.Controllers
                             }
                         }
                     }
-                   
+
                 }
                 _context.Products.Update(ProductToEdit);
                 _context.SaveChanges();
             }
-            return RedirectToAction("Index", "Product");        }
+            return RedirectToAction("Index", "Product");
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int Id)
+        {
+            var productToDelete = _context.Products.FirstOrDefault(x => x.Id == Id);
+            var ImagesTodelete = _context.PImages.Where(u => u.ProductId == Id).Select(u => u.ImageUrl);
+            foreach(var image in ImagesTodelete)
+            {
+                string imageUrl = "Images\\" + image;
+                var toDelteImageFromFolder = Path.Combine(_HostEnvironment.WebRootPath, imageUrl.TrimStart('\\'));
+                DeleteAImage(toDelteImageFromFolder);
+            }
+            if(productToDelete.HomeImageUrl != "")
+            {
+                string imageUrl = "Images\\" + productToDelete.HomeImageUrl;
+                var toDelteImageFromFolder = Path.Combine(_HostEnvironment.WebRootPath, imageUrl.TrimStart('\\'));
+                DeleteAImage(toDelteImageFromFolder);
+            }
+            _context.Products.Remove(productToDelete);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Product");
+        }
+
+        private void DeleteAImage(string toDelteImageFromFolder)
+        {
+            if (System.IO.File.Exists(toDelteImageFromFolder))
+            {
+                System.IO.File.Delete(toDelteImageFromFolder);
+            }
+        }
 
         private string UploadFiles(IFormFile image)
         {
             string fileName = null;
-            if(image != null)
+            if (image != null)
             {
                 string uploadDirLocation = Path.Combine(_HostEnvironment.WebRootPath, "Images");
                 fileName = Guid.NewGuid().ToString() + "_" + image.FileName;
                 string filePath = Path.Combine(uploadDirLocation, fileName);
-                using(var fileStream = new FileStream(filePath, FileMode.Create))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     image.CopyTo(fileStream);
                 }
