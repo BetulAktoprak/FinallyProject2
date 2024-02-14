@@ -87,6 +87,69 @@ namespace FinallyProjectUI.Controllers
             return RedirectToAction("Index", "Product");
         }
 
+        [HttpGet]
+        public IActionResult Edit(int Id)
+        {
+            ProductVM productsVM = new ProductVM()
+            {
+                Products = _context.Products.FirstOrDefault(p => p.Id == Id),
+                CategoriesList = _context.Categories.ToList().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                })
+            };
+            productsVM.Products.ImgUrls = _context.PImages.Where(u => u.ProductId == Id).ToList();
+            return View(productsVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ProductVM productVM)
+        {
+            var ProductToEdit = _context.Products.FirstOrDefault(u => u.Id == productVM.Products.Id);
+            if(ProductToEdit != null)
+            {
+                ProductToEdit.Name = productVM.Products.Name;
+                ProductToEdit.Price = productVM.Products.Price;
+                ProductToEdit.Description = productVM.Products.Description;
+                ProductToEdit.CategoryId = productVM.Products.CategoryId;
+                if(productVM.Images != null)
+                {
+                    foreach(var item in productVM.Images)
+                    {
+                        string tempFileName = item.FileName;
+                        if (!tempFileName.Contains("Home"))
+                        {
+                            string stringFileName = UploadFiles(item);
+                            var addressImage = new PImages
+                            {
+                                ImageUrl = stringFileName,
+                                ProductId = productVM.Products.Id,
+                                ProductName = productVM.Products.Name
+                            };
+                            _context.PImages.Add(addressImage);
+                        }
+                        else
+                        {
+                            if(ProductToEdit.HomeImageUrl == "")
+                            {
+                                string homeImageUrl = item.FileName;
+                                if (homeImageUrl.Contains("Home"))
+                                {
+                                    homeImageUrl = UploadFiles(item);
+                                    ProductToEdit.HomeImageUrl = homeImageUrl;
+                                }
+                            }
+                        }
+                    }
+                   
+                }
+                _context.Products.Update(ProductToEdit);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index", "Product");        }
+
         private string UploadFiles(IFormFile image)
         {
             string fileName = null;
