@@ -60,3 +60,63 @@ body {
     border-radius: 20px;
     background-color: whitesmoke
 }
+
+/* Css Code */
+
+@media screen and (min-width: 550px){
+    .setWi {
+        width: 200px;
+        background-color: red;
+        border-image-width: 500
+    }
+}
+
+.store-item-icon:hover{
+    color: #fff;
+}
+
+.single-item{
+    transition: background-color linear 50s;
+}
+
+.single-item:hover{
+    box-shadow: 100px 100px 150px rgb(249, 28, 18);
+}
+
+.img-container{
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.store-img{
+    transition: all ls ease-in-out;
+}
+
+.img-container:hover .store-img{
+    transform: scale(2.2);
+}
+
+.store-item-icon{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.75rem;
+    background: rgb(249, 2280, 1480);
+    border-top-left-radius: 1rem;
+    transition: all ls ease-in-out;
+    transform: translate(100%, 100%);
+}
+
+.img-container:hover .store-item-icon{
+    transform: translate(0, 0);
+}
+
+.store-item-icon:hover{
+    color: rgb(249, 28, 18);
+}
+
+.noPadding{
+    margin: 0px 0px 0px 0px;
+    padding: 0px 5px 0px 0px;
+}

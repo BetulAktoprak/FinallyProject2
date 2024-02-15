@@ -10,5 +10,6 @@ namespace FinallyProjectEntity.ViewModel
     {
         public IEnumerable<Product> ProductList { get; set; }
         public IEnumerable<Category> categories { get; set;}
+        public string searchByName { get; set; }
     }
 }

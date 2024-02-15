@@ -154,7 +154,7 @@ namespace FinallyProjectUI.Controllers
         [HttpDelete]
         public IActionResult Delete(int Id)
         {
-            if(Id != 0)
+            if (Id != 0)
             {
                 var productToDelete = _context.Products.FirstOrDefault(x => x.Id == Id);
                 var ImagesTodelete = _context.PImages.Where(u => u.ProductId == Id).Select(u => u.ImageUrl);
@@ -162,7 +162,7 @@ namespace FinallyProjectUI.Controllers
                 {
                     string imageUrl = "Images\\" + image;
                     var toDelteImageFromFolder = Path.Combine(_HostEnvironment.WebRootPath, imageUrl.TrimStart('\\'));
-                    object value = DeleteAImage(toDelteImageFromFolder);
+                    DeleteAImage(toDelteImageFromFolder);
                 }
                 if (productToDelete.HomeImageUrl != "")
                 {
@@ -175,45 +175,45 @@ namespace FinallyProjectUI.Controllers
             }
             else
             {
-                return Json(new {success = false, message= "Öge silinemedi"});
+                return Json(new { success = false, message = "Öge silinemedi" });
             }
 
 
             return Json(new { success = true, message = "Silme başarılı" });
         }
 
-        public IActionResult DeleteAImage(string Id)
+        public IActionResult DeleteAImg(string Id)
         {
             int routeId = 0;
-            if (Id !=null)
+            if (Id != null)
             {
-                if(!Id.Contains("Home"))
+                if (!Id.Contains("Home"))
                 {
-                    var ImageToDeleteFromPImage= _context.PImages.FirstOrDefault(u => u.ImageUrl == Id);
-                    if (ImageToDeleteFromPImage!=null) 
+                    var ImageToDeleteFromPImage = _context.PImages.FirstOrDefault(u => u.ImageUrl == Id);
+                    if (ImageToDeleteFromPImage != null)
                     {
-                       routeId = ImageToDeleteFromPImage.ProductId;
+                        routeId = ImageToDeleteFromPImage.ProductId;
                         _context.PImages.Remove(ImageToDeleteFromPImage);
                     }
                 }
                 else
                 {
                     var ImageToDeleteFromProduct = _context.Products.FirstOrDefault(u => u.HomeImageUrl == Id);
-                    if(ImageToDeleteFromProduct!=null) 
+                    if (ImageToDeleteFromProduct != null)
                     {
-                      ImageToDeleteFromProduct.HomeImageUrl = "";
+                        ImageToDeleteFromProduct.HomeImageUrl = "";
                         routeId = ImageToDeleteFromProduct.Id;
                         _context.Products.Update(ImageToDeleteFromProduct);
                     }
                 }
                 string ImageUrl = "Images\\" + Id;
-                var toDeleteImageFromFolder =Path.Combine(_HostEnvironment.WebRootPath, ImageUrl);
-                object value = DeleteAImage(toDeleteImageFromFolder);
+                var toDeleteImageFromFolder = Path.Combine(_HostEnvironment.WebRootPath, ImageUrl);
+                DeleteAImage(toDeleteImageFromFolder);
                 _context.SaveChanges();
-                return Json(new {success = true, message="Resim başarıyla silindi", id= routeId});
+                return Json(new { success = true, message = "Resim başarıyla silindi", id = routeId });
             }
             return Json(new { success = false, message = "resim silinemedi" });
-           
+
         }
 
 
