@@ -1,8 +1,56 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿ @model ModelClasses.ViewModel.HomePageVM
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+ <div class="bg-light border rounded" style="margin: 20px 0px 20px 0px" >
+     <div class="text-end">
+         <form asp-action="Index" method="get">
+             <div class="row m-2">
+                 <div class="col-md-6 col-lg-8 col-sm-12">
+                     <h6 class="text-info text-center font-weight-bold ">Alışveriş sitemize hoşgeldiniz</h6>
+                 </div>
+                <div class="col-md-6 col-lg-8 col-sm-12">
+                    <div class="d-flex justify-content-end">
+
+                        <input placeholder="isme göre ara" class="form-control rounded-left" />
+                        <button type="submit" class="btn btn bg-primary  text-white font-weight-bold"> <i class="fas fa-search"></i></button>
+                    </div>
+                </div>
+             </div>
+
+             <a asp-action="Index">Tüm Listeye Geri Dön</a>
+         </form>
+     </div>
+</div>
+
+<div class="row">
+    <div class="col-2 bg-white border-start-0 border-end-1 border-top-0 border-bottom-0 border-secondary d-none d-sm-block" style="border:solid black">
+        <p class="text-success"><strong>Kategorileri Ara</strong></p>
+        <hr />
+        @if (Model.Categories.Count() > 0)
+        {
+            <div>
+            @foreach (var item in Model.Categories)
+            {
+                <div class="pb-2">
+                  <strong><a href="#" class="text-info"><i class="fa fa-hand-point-right fa-lg" style="color:#22511f;">&nbsp</i>@item.Name</a></strong>  
+                </div>
+            }
+            </div>
+        }
+        <hr />
+        <p class="text-success"><strong>En Çok Satın Alınan Ürün</strong></p>
+        <div id="carouselExampleDark" class="carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"</button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"</button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active" data-bs-interval="10000">
+                    <img src="~/images/"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
 </div>
