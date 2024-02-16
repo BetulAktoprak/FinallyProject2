@@ -128,7 +128,7 @@
                                             <p class="text-success" id="store-item-name"><strong>@item.Name</strong></p>
                                         </div>
                                         <div class="col-lg-1 col-md-3 col-sm-6 text-end">
-                                            <strong id="store-item-price" class="font-weight-bold"><i class="fas fa-solid fa-plus"></i></strong>
+                                            <a asp-action="AddToCart" asp-controller="Cart" asp-route-productId="@item.Id"><strong id="store-item-price" class="font-weight-bold"><i class="fas fa-solid fa-plus"></i></strong></a>
                                         </div>
                                     </div>
                                 </div>
