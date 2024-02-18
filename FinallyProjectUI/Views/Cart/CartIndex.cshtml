@@ -1,0 +1,60 @@
+﻿@model FinallyProjectEntity.ViewModel.CartIndexVM
+
+@if(Model.productList.Count() > 0)
+{
+    <h4 class="text-info text-center pb-2"><strong>Sepetinizdeki Ürünler</strong></h4>
+    <div class="PaddingAll" style="border:1px solid red">
+        <table class="table table-striped table-bordered table-dark rounded" style="border-radius: 7px; overflow:hidden; box-shadow:0 2px 4px 0 blue, 0 6px 20px 0 rgba(0, 0, 0, 0.19)">
+            <thead class="table-danger text-center">
+                <tr>
+                    <th>Resim</th>
+                    <th>Ürün Adı</th>
+                    <th>Fiyat</th>
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach(var item in Model.productList)
+            {
+                <tr>
+                    <td width="30%">
+                        <div class="d-flex justify-content-center">
+                            <a asp-action="Details" asp-controller="Home" asp-route-Id="@item.product.Id">
+                                <img src="~/images/@item.product.HomeImageUrl" height="100" width="100" />
+                            </a>
+                        </div>
+                    </td>
+                    <td width="30%">
+                        @item.product.Name
+                    </td>
+                    <td width="35%">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-auto col-md-auto col-sm-auto">
+                                <a asp-action="AddToCart" asp-controller="Cart" asp-route-productId="@item.ProductId" asp-route-returnUrl="Yes" class="btn btn-success">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
+                            <div class="col-lg-auto col-md-auto col-sm-auto">
+                                <label class="font-weight-bold"><strong>(@item.Quantity * $@item.product.Price)</strong></label>
+                            </div>
+                            <div class="col-lg-auto col-md-auto col-sm-auto">
+                                <a asp-action="MinusAnItem" asp-route-productId="@item.ProductId" class="btn btn-warning"><i class="fas fa-minus"></i></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td width="5%">
+                        <a asp-action="DeleteAnItem" asp-route-productId="@item.ProductId" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <div class="text-end">
+            <a asp-action="orderDetailPreview" asp-controller="Order" asp-route-id="@Model.productList.FirstOrDefault().userId" class="btn btn-success">Sipariş Ver</a>
+        </div>
+    </div>
+}
+else
+{
+    <h2 class="text-warning font-weight-bold">
+        Sepette ürün yok lütfen ekleyin
+    </h2>
+}

@@ -1,9 +1,12 @@
 ﻿using FinallyProjectDataAccess;
 using FinallyProjectEntity.ViewModel;
 using FinallyProjectUI.Models;
+using FinallyProjectUI.Utility;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace FinallyProjectUI.Controllers
 {
@@ -11,15 +14,28 @@ namespace FinallyProjectUI.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _db;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
         {
             _logger = logger;
             _db = db;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         public IActionResult Index(string? searchByName, string? searchByCategory)
         {
+            var claim = _signInManager.IsSignedIn(User);
+            if (claim)
+            {
+                var userId = _userManager.GetUserId(User);
+                var count = _db.userCarts.Where(u => u.userId.Contains(userId)).Count();
+                HttpContext.Session.SetInt32(cartCount.sessionCount, count);
+            }
+
+
             HomePageVM vm = new HomePageVM();
             if(searchByName != null)
             {

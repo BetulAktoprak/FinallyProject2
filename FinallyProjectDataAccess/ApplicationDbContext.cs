@@ -22,5 +22,8 @@ namespace FinallyProjectDataAccess
         public DbSet<Inventory> Inventories { get; set; }
         public DbSet<PImages> PImages { get; set; }
         public DbSet<userCart> userCarts {  get; set; }
+        public DbSet<UserOrderHeader> orderHeaders {  get; set; }
+        public DbSet<OrderDetails> orderDetails {  get; set; }
+
     }
 }

@@ -1,4 +1,5 @@
 using FinallyProjectDataAccess;
+using FinallyProjectUI.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,15 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+
+//builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(15);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -32,6 +42,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+//StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
+app.UseSession();
 
 app.UseAuthorization();
 
